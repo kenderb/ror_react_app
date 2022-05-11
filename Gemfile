@@ -43,6 +43,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.7'
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 end
 
 group :development do

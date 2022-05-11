@@ -1,18 +1,20 @@
+require 'faker'
+
 FactoryGirl.define do
   factory :reading_time do
   end
 
   factory :book do
-    title 'book title'
-    content 'some content here for the book'
+    title Faker::Book.unique.title
+    content Faker::Lorem.paragraph
   end
 
   factory :course do
-    name 'Course name'
+    name Faker::Book.unique.title
   end
 
   factory :user do |f|
-    f.name 'Kender'
-    f.email 'Kender@mail.com'
+    f.name Faker::Name.name
+    f.email Faker::Internet.unique.email
   end
 end
