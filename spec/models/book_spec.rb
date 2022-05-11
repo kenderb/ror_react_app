@@ -8,5 +8,6 @@ RSpec.describe Book, type: :model do
   end
 
   describe 'associations' do
+    it { should have_many(:students).class_name('User').through(:reading_times) }
   end
 end

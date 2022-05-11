@@ -3,7 +3,7 @@ FactoryGirl.define do
   end
 
   factory :book do
-    name 'book name'
+    title 'book title'
     content 'some content here for the book'
   end
 

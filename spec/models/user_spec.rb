@@ -12,5 +12,6 @@ RSpec.describe User, :type => :model do
     it { should belong_to(:instructor).class_name('User').optional }
     it { should belong_to(:course).class_name('Course') }
     it { should have_many(:students).class_name('User') }
+    it { should have_many(:books).class_name('Book').through(:reading_times) }
   end
 end
