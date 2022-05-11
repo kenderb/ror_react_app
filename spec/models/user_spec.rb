@@ -10,6 +10,7 @@ RSpec.describe User, :type => :model do
 
   describe 'associations' do
     it { should belong_to(:instructor).class_name('User').optional }
+    it { should belong_to(:course).class_name('Course') }
     it { should have_many(:students).class_name('User') }
   end
 end
