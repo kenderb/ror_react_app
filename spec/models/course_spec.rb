@@ -7,5 +7,7 @@ RSpec.describe Course, type: :model do
 
   describe 'associations' do
     it { should have_many(:users).class_name('User') }
+    it { should have_many(:instructors).class_name('User') }
+    it { should have_many(:students).class_name('User') }
   end
 end
