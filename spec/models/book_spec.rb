@@ -9,6 +9,6 @@ RSpec.describe Book, type: :model do
 
   describe 'associations' do
     it { should have_many(:students).class_name('User').through(:reading_times) }
-    it { should has_and_belongs_to_many(:courses).class_name('Course') }
+    it { should have_many(:courses).class_name('Course').through(:books_courses) }
   end
 end

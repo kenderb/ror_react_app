@@ -17,4 +17,7 @@ FactoryGirl.define do
     f.name Faker::Name.name
     f.email Faker::Internet.unique.email
   end
+
+  factory :books_course do
+  end
 end
