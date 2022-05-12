@@ -39,7 +39,8 @@ class DbFiller
   def create_student_with_course
     current_user = create_user_with_course
     current_user.student!
-
+    current_user.books << book
+    current_user.reading_times.last.amount = rand(100)
     save_user(current_user)
   end
 
