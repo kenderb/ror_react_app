@@ -6,6 +6,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
+    return render json: { message: "Name can't by empty." }, status: :unprocessable_entity if user_params[:name].empty?
+
     @user.update!(name: user_params[:name])
     render json: @user, status: :ok
   end

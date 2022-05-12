@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
     const [users, setUsers] =  useState([])
     const [userData, setUserData] =  useState({ name: "", email: ""})
     const [success, setSuccess] =  useState(false)
+    const [error, setError] =  useState({message:"", hasError: false})
 
     const get_courses = () => {
       const url = "api/v1/courses/index";
@@ -46,18 +47,20 @@ import React, { useEffect, useState } from "react";
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: userData.name,
+          name: userData.name.trim(),
           email: userData.email
         }),
       })
       .then((data) => {
         if (data.ok) {
+          setError({hasError: false, message:""})
           get_users()
           setSuccess(true)
+        } else {
+          return data.text().then(text => { throw new Error(text) })
         }
-        throw new Error("Network error.");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setError({hasError: true, ...JSON.parse(err.message)}));
     };
 
     useEffect(() => {
@@ -68,17 +71,15 @@ import React, { useEffect, useState } from "react";
     const formUI = (
       <form onSubmit={onSubmit}>
         <label className="form-label">
-          Type the email of the user you want yo change:
+          Select an email of the user you want yo change the name:
         </label>
         <br />
-        <input 
-          type="text" 
-          name="email"
-          className="form-control"
-          value={ userData.email }
-          onChange={(e) => setUserData({...userData, email: e.target.value })}
-          required
-        />
+        <select className="form-select" aria-label="Default select example" onChange={(e) => setUserData({...userData, email: e.target.value })} required>
+          <option selected value="">Select a email</option>
+          {users.map((user) => (
+            <option value={user.email} key={user.id}>{user.email}</option>
+          ))}
+        </select>
 
       <br />
         <label className="form-label">
@@ -98,7 +99,6 @@ import React, { useEffect, useState } from "react";
             Change name
           </button>
         </div>
-
       </form>
     );
 
@@ -117,7 +117,7 @@ import React, { useEffect, useState } from "react";
       <tbody>
         {courses.map((course) =>{
           return(
-            <tr>
+            <tr key={course.id}>
               <th scope="row">{course.id}</th>
               <td>{course.name}</td>
               <td>{course.students}</td>
@@ -147,7 +147,7 @@ import React, { useEffect, useState } from "react";
       <tbody>
         {users.map((user) =>{
           return(
-            <tr>
+            <tr key={user.id}>
               <th scope="row">{user.id}</th>
               <td>{user.email}</td>
               <td>{user.name}</td>
@@ -156,7 +156,7 @@ import React, { useEffect, useState } from "react";
               <td>
                 <ul>
                   {user.reading_times?.map((reading_time => (
-                    <li>
+                    <li key={reading_time.amount+user.id}>
                       <p>Book title: {reading_time.title}</p> 
                       <p>Amount: {reading_time.amount}</p> 
                     </li>
@@ -180,13 +180,16 @@ import React, { useEffect, useState } from "react";
       <div className="container-fluid">
         <h2>Change user name: </h2>
         <div className="card" style={{width: "18rem"}}>
-          <div class="card-body"> 
+          <div className="card-body"> 
             {formUI} 
           </div>
         </div>
         <div>
           <div style={{color: "green"}}>
             {success && `Name for user with email: ${userData.email } changed.`}
+          </div>
+          <div style={{color: "red"}}>
+            {error.hasError && error.message}
           </div>
         </div>
       </div>
