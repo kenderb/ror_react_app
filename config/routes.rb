@@ -5,8 +5,7 @@ Rails.application.routes.draw do
       get 'courses/index'
       get 'users/index'
 
-      patch '/users/:email', to: 'users#update'
-      get '/users/:email', to: 'users#show'
+      patch '/users', to: 'users#update'
     end
   end
 

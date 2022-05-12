@@ -38,8 +38,7 @@ import React, { useEffect, useState } from "react";
 
     const onSubmit = (e) => {
       e.preventDefault();
-      console.log("submitting...", userData);
-      const url = `api/v1/users/${userData.email}`;
+      const url = `api/v1/users`;
 
       fetch(url, {
         method: 'PATCH',
@@ -47,7 +46,8 @@ import React, { useEffect, useState } from "react";
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: userData.name
+          name: userData.name,
+          email: userData.email
         }),
       })
       .then((data) => {
@@ -67,99 +67,134 @@ import React, { useEffect, useState } from "react";
 
     const formUI = (
       <form onSubmit={onSubmit}>
-        <label>
+        <label className="form-label">
           Type the email of the user you want yo change:
         </label>
         <br />
         <input 
           type="text" 
-          name="email" 
+          name="email"
+          className="form-control"
           value={ userData.email }
           onChange={(e) => setUserData({...userData, email: e.target.value })}
+          required
         />
 
       <br />
-        <label>
+        <label className="form-label">
           Type the new name for the User:
         </label>
         <br />
         <input 
           type="text" 
           name="name"
+          className="form-control"
           value={ userData.name }
           onChange={(e) => setUserData({...userData, name: e.target.value })}
+          required
         />
+        <div className="mx-auto mt-3" style={{width: "150px"}}>
+          <button type="submit" value="Submit" className="btn btn-primary" style={{width: "100%"}}>
+            Change name
+          </button>
+        </div>
 
-        <br />
-        <br />
-        <input type="submit" value="Submit" />
       </form>
+    );
+
+    const coursesTableUI = (
+      <table className="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Students</th>
+          <th scope="col">Instructors</th>
+          <th scope="col">Books</th>
+          <th scope="col">Created at</th>
+        </tr>
+      </thead>
+      <tbody>
+        {courses.map((course) =>{
+          return(
+            <tr>
+              <th scope="row">{course.id}</th>
+              <td>{course.name}</td>
+              <td>{course.students}</td>
+              <td>{course.instructors}</td>
+              <td>{course.books}</td>
+              <td>{course.created_at}</td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
     )
+
+    const usersTableUI = (
+      <table className="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Email</th>
+          <th scope="col">Name</th>
+          <th scope="col">Role</th>
+          <th scope="col">Course</th>
+          <th scope="col">Reading Times</th>
+          <th scope="col">Updated at</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user) =>{
+          return(
+            <tr>
+              <th scope="row">{user.id}</th>
+              <td>{user.email}</td>
+              <td>{user.name}</td>
+              <td>{user.role}</td>
+              <td>{user.course}</td>
+              <td>
+                <ul>
+                  {user.reading_times?.map((reading_time => (
+                    <li>
+                      <p>Book title: {reading_time.title}</p> 
+                      <p>Amount: {reading_time.amount}</p> 
+                    </li>
+                    )))}
+                </ul>
+              </td>
+              <td>{user.updated_at}</td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+    );
 
   return (
     <div>
       <h1>All courses</h1>
-      <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Students</th>
-              <th scope="col">Instructors</th>
-              <th scope="col">Books</th>
-              <th scope="col">Created at</th>
-            </tr>
-          </thead>
-          <tbody>
-            {courses.map((course) =>{
-              return(
-                <tr>
-                  <th scope="row">{course.id}</th>
-                  <td>{course.name}</td>
-                  <td>{course.students}</td>
-                  <td>{course.instructors}</td>
-                  <td>{course.books}</td>
-                  <td>{course.created_at}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-      </table>
+      <div className="table-responsive">
+        {coursesTableUI}
+      </div>
       <div className="container-fluid">
         <h2>Change user name: </h2>
-        {formUI}
-        <div>
-        <div style={{color: "green"}}>
-          {success && `Name for user with email: ${userData.email } changed.`}
+        <div className="card" style={{width: "18rem"}}>
+          <div class="card-body"> 
+            {formUI} 
+          </div>
         </div>
-      </div>
+        <div>
+          <div style={{color: "green"}}>
+            {success && `Name for user with email: ${userData.email } changed.`}
+          </div>
+        </div>
       </div>
       <div className="container-fluid">
         <h2>All users</h2>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Email</th>
-              <th scope="col">Name</th>
-              <th scope="col">Role</th>
-              <th scope="col">Course</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) =>{
-              return(
-                <tr>
-                  <th scope="row">{user.id}</th>
-                  <td>{user.email}</td>
-                  <td>{user.name}</td>
-                  <td>{user.role}</td>
-                  <td>{user.course}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        <div className="table-responsive">
+          {usersTableUI}
+        </div>
       </div>
     </div>
   )
