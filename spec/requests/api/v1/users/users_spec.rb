@@ -31,4 +31,34 @@ RSpec.describe 'Users', type: :request do
       expect(json.first['role']).to eq 'instructor'
     end
   end
+
+  context 'Users#update' do
+    before(:each) do
+      first_course
+      last_course
+      book.courses << last_course
+      book.save!
+      student
+      instructor
+    end
+
+    it 'should edit a user name using the email' do
+      headers = { 'ACCEPT' => 'application/json' }
+      patch api_v1_users_path, params: { email: student.email, name: 'Name edited' }, headers: headers
+
+      json = JSON.parse(response.body)
+      expect(response.status).to eq 200
+      expect(json['email']).to eq student.email
+      expect(json['name']).to eq 'Name edited'
+    end
+
+    it 'should not edit a user name if param name is empty' do
+      headers = { 'ACCEPT' => 'application/json' }
+      patch api_v1_users_path, params: { email: student.email, name: '' }, headers: headers
+
+      json = JSON.parse(response.body)
+      expect(response.status).to eq 422
+      expect(json['message']).to eq "Name can't by empty."
+    end
+  end
 end
