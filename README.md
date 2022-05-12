@@ -1,4 +1,4 @@
-# Courses librery with Ruby on Rails and React
+# Courses library with Ruby on Rails and React
 
 This project is a full-stack application built with React and Ruby on rails. This app gives you de possibility to create courses with students and instructors and you can track how many times a student read a book.
 > You have the option to edit a user name just by selecting the email. For easy choice of emails you can select it in the select input field inside the form and update the name of that user as you please.
