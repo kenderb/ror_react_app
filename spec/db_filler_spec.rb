@@ -20,9 +20,14 @@ RSpec.describe DbFiller do
       expect(User.student.size).to eq 15
     end
 
-    it 'Each Student should have a ReadingTime associated with the Book' do
+    it 'should create students that have a ReadingTime associated to a Book' do
+      expect(Book.all.size).to eq 1
       expect(ReadingTime.all.size).to_not be 0
-      # expect(User.student.last.reading_times.last.book_id).to eq Book.last.id
+
+      User.student.each do |student|
+        expect(student.reading_times.last.amount).to be > 0
+        expect(student.reading_times.last.book_id).to eq Book.last.id
+      end
     end
   end
 end
