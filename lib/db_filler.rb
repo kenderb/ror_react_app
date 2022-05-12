@@ -1,4 +1,4 @@
-class DbPopulator
+class DbFiller
   attr_accessor :course, :book
 
   def initialize
@@ -6,7 +6,7 @@ class DbPopulator
     @book = Book.create!(title: Faker::Book.unique.title, content: Faker::Lorem.paragraph)
   end
 
-  def populate
+  def fill_data_base
     add_book_to_course
     assign_instructor_to_students
   end
