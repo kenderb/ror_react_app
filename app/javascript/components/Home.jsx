@@ -76,7 +76,7 @@ import React, { useEffect, useState } from "react";
         </label>
         <br />
         <select className="form-select" aria-label="Default select example" onChange={(e) => setUserData({...userData, email: e.target.value })} required>
-          <option selected value="">Select a email</option>
+          <option selected value="">Select an email</option>
           {users.map((user) => (
             <option value={user.email} key={user.id}>{user.email}</option>
           ))}
