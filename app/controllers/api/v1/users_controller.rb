@@ -1,5 +1,9 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: %i[ update]
+  before_action :set_user, only: %i[update]
+
+  def index
+    @users = User.all.order(created_at: :desc)
+  end
 
   def update
     @user.update!(name: user_params[:name])
