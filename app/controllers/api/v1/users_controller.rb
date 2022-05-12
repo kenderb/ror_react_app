@@ -1,24 +1,33 @@
-class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: %i[update]
+# frozen_string_literal: true
 
-  def index
-    @users = User.all.includes(:books).order(updated_at: :desc)
-  end
+module Api
+  module V1
+    class UsersController < ApplicationController
+      before_action :set_user, only: %i[update]
 
-  def update
-    return render json: { message: "Name can't by empty." }, status: :unprocessable_entity if user_params[:name].empty?
+      def index
+        @users = User.all.includes(:books).order(updated_at: :desc)
+      end
 
-    @user.update!(name: user_params[:name])
-    render json: @user, status: :ok
-  end
+      def update
+        if user_params[:name].empty?
+          return render json: { message: "Name can't by empty." },
+                        status: :unprocessable_entity
+        end
 
-  private
+        @user.update!(name: user_params[:name])
+        render json: @user, status: :ok
+      end
 
-  def set_user
-    @user = User.find_by(email: user_params[:email])
-  end
+      private
 
-  def user_params
-    params.permit(:name, :email)
+      def set_user
+        @user = User.find_by(email: user_params[:email])
+      end
+
+      def user_params
+        params.permit(:name, :email)
+      end
+    end
   end
 end

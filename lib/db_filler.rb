@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DbFiller
   attr_accessor :course, :book
 

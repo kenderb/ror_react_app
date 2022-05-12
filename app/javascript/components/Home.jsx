@@ -57,6 +57,7 @@ import React, { useEffect, useState } from "react";
           get_users()
           setSuccess(true)
         } else {
+          setSuccess(false)
           return data.text().then(text => { throw new Error(text) })
         }
       })

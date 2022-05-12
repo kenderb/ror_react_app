@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BooksCourse < ApplicationRecord
   belongs_to :book, class_name: :Book
   belongs_to :course, class_name: :Course
