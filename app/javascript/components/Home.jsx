@@ -72,7 +72,7 @@ import React, { useEffect, useState } from "react";
     const formUI = (
       <form onSubmit={onSubmit}>
         <label className="form-label">
-          Select an email of the user you want yo change the name:
+          Select an email of the user you want to change the name:
         </label>
         <br />
         <select className="form-select" aria-label="Default select example" onChange={(e) => setUserData({...userData, email: e.target.value })} required>
